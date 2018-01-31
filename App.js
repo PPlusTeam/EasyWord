@@ -18,18 +18,16 @@ import SetProfile from './component/SetProfile';
 import UpdateProfile from './component/UpdateProfile';
 import UpdateInfoMail from './component/UpdateInfoMail';
 import ButtonFace from './component/com/ButtonFace';
+import ContentHome from './component/ContentHome';
 
 
 // import ButtonFace from './component/com/ButtonFace';
 // import LoginFacebook from './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  // LoginFacebook:{screen:LoginFacebook},
+  ContentHome:{screen:ContentHome},
   Main: {
-    screen:Main,
-    navigationOptions:({navigation})=>{
-      titile:"Trang Chu"
-    }
+    screen:Main
   },
   Userlogin:{screen: Userlogin},
   ButtonFace : {screen: ButtonFace},
