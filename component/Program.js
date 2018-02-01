@@ -15,8 +15,12 @@ export default class Program extends React.Component {
     this.state = {
       text1: 'Không thể hấp dẫn hơn được',
       src1: require('../source/images/icon/headerun.png'),
+      ic1: require('../source/images/icon/ic_coin.png'),
+      ic2: require('../source/images/icon/ic_diamond.png'),
       csrc: false,
-      txtCoin: "1.000 E.P"
+      txtCoin: "1.000 E.P",
+      txtDiamond: 'Free "Salad cá ngừ"',
+      txtDate: 'Còn lại 35 ngày'
     };
   }
   _pressIconHeart() {
@@ -39,22 +43,33 @@ export default class Program extends React.Component {
           <Image
             style={styles.logoPizza}
             source={require('../source/images/logo_pizzahut.png')}/>
-          <View style={styles.view2}>
-            <Text>
-              {this.state.text1}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-              this._pressIconHeart()
-            }}>
-              <Image source={this.state.src1} style={styles.iconHeart}/>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.view3}>
-            <Image
-              style={styles.icCoin}
-              source={require('../source/images/icon/ic_coin.png')}/>
-            <Text>{this.state.txtCoin}</Text>
+          <View style={{
+            backgroundColor: 'red',
+            position:'absolute',
+            bottom:0,
+            alignSelf:'center'
+          }}>
+            <View style={styles.view2}>
+              <Text style={styles.text1}>
+                {this.state.text1}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                this._pressIconHeart()
+              }}>
+                <Image source={this.state.src1} style={styles.iconHeart}/>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.view3}>
+              <View style={styles.view4}>
+                <Image style={styles.icCoin} source={this.state.ic1}/>
+                <Text style={styles.text}>{this.state.txtCoin}</Text>
+                <Image style={styles.icCoin2} source={this.state.ic2}/>
+                <Text style={styles.text}>{this.state.txtDiamond}</Text>
+              </View>
+              <Text style={styles.text}>{this.state.txtDate}</Text>
+            </View>
+
           </View>
         </ImageBackground>
       </View>
@@ -73,13 +88,35 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     height: undefined,
-    width: undefined,
+    width: undefined
   },
   view2: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: 'blue',
+    justifyContent: 'space-between',
   },
   view3: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: 'yellow',
+    marginLeft:20,
+    
+
+  },
+  view4:{
+    backgroundColor: 'pink',
+    paddingLeft:10,
+    flexDirection: 'row',
+  },
+
+  text1: {
+    alignSelf: 'center',
+    color: 'white',
+    fontSize: 22
+  },
+  text: {
+    alignSelf: 'center',
+    color: 'white',
+    fontSize: 19
   },
   logoPizza: {
     position: 'relative',
@@ -90,10 +127,17 @@ const styles = StyleSheet.create({
   },
   iconHeart: {
     height: 35,
-    width: 35
+    width: 35,
+    alignSelf: 'center'
   },
   icCoin: {
     height: 30,
-    width: 30
+    width: 30,
+    alignSelf: 'center'
+  },
+  icCoin2: {
+    height: 40,
+    width: 40,
+    alignSelf: 'center'
   }
 });

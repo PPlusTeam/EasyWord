@@ -25,7 +25,7 @@ import ContentHome from './component/ContentHome';
 // import LoginFacebook from './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  // ContentHome:{screen:ContentHome},
+  ContentHome:{screen:ContentHome},
   Main: {
     screen:Main
   },
