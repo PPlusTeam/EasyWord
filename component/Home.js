@@ -41,18 +41,19 @@ const Navigation = StackNavigator({
     }
 }, {});
 
-//  Navigation;
+export default  Navigation;
 
-export default class Show extends React.Component {
+ class Show extends React.Component {
     render() {
         console.log("Class Render");
         return (
-            <View style={{
+            <View
+                style={{
                 display: 'flex',
                 flex: 1,
                 backgroundColor: 'red'
             }}>
-                <Navigation/>
+            <Navigation/>
             </View>
         );
     }

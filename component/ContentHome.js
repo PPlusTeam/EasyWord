@@ -21,29 +21,37 @@ const TabNav = TabNavigator({
       title: "Nổi Bật"
     }
   },
-  // Party: {
-  //   screen: Party,
-  //   navigationOptions: {
-  //     title: "Party"
-  //   }
-  // }
+  Party: {
+    screen: Party,
+    navigationOptions: {
+      title: "Party"
+    }
+  }
 }, {
   tabBarOptions: {
+    // showLabel: true,
+    titleStyle: {
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
     showIcon: true,
     showLabel: true,
     activeTintColor: '#141E23',
     inactiveTintColor: 'gray',
     tabStyle: {
       paddingTop: 0,
-      margin: 0, //Padding 0 here,
-    },
-    style: {
-      backgroundColor: 'white',
+      margin: 0, //Padding 0 here,   },   style: {     backgroundColor: 'white',
       height: 70,
       width: null,
       padding: 0,
       flexDirection: 'column',
       justifyContent: 'center'
+    },
+    style: {
+      backgroundColor: 'white',
+      padding: 0,
+      flexDirection: 'column',
+      justifyContent: 'center',
     },
     indicatorStyle: {
       backgroundColor: '#141e23'
@@ -51,15 +59,4 @@ const TabNav = TabNavigator({
   }
 });
 
-export default class Show extends React.Component{
-  render(){
-    console.log("Class Render");
-    return(
-      <View style={{flex:1, backgroundColor: 'yellow'}}>
-        <TabNav style={{ flex: 1, backgroundColor: 'blue', zIndex: 999}}> </TabNav>
-      </View>
-    );
-  }
-}
-
-// export default TabNav;
+export default TabNav;

@@ -55,37 +55,54 @@ export default class Program extends React.Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('load Program');
   }
 
   render() {
 
+    // return (   <View style={{     flex: 1,     backgroundColor: 'yellow'   }}>
+    //  <Text>Prodawdawdawdawgram</Text>   </View> );
     return (
-      <View style={{
-        flex: 1,
-        backgroundColor: '#ff0000'
-      }}>
-        <Text>Program</Text>
-      </View>
+      <ScrollView>
+        <Panel/>
+        <PanelHome
+          srcBR={this.state.brPizza}
+          logo={this.state.logoPizza}
+          title={this.state.titlePizza}
+          icPlace={this.state.icPlace}
+          titles2={this.state.title2Pizza}
+          context2={this.state.context2Pizza}
+          txt1={this.state.txt1Pizza}
+          txt2={this.state.txt2Pizza}
+          txt3={this.state.txt3Pizza}
+          txt4={this.state.txt4Pizza}/>
+        <PartyAround/>
+        <BonusWithList/>
+        <PanelHome
+          srcBR={this.state.brCf}
+          logo={this.state.logoCf}
+          title={this.state.titleCf}
+          icPlace={this.state.icPlace}
+          titles2={this.state.title2Cf}
+          context2={this.state.context2Cf}
+          txt1={this.state.txt1Cf}
+          txt2={this.state.txt2Cf}
+          txt3={this.state.txt3Cf}
+          txt4={this.state.txt4Cf}/>
+        <HotGift/>
+        <PanelHome
+          srcBR={this.state.brS}
+          title={this.state.titleS}
+          icPlace={this.state.icPlace}
+          titles2={this.state.title2S}
+          context2={this.state.context2S}
+          txt1={this.state.txt1S}
+          txt2={this.state.txt2S}
+          txt3={this.state.txt3S}
+          txt4={this.state.txt4S}/>
+      </ScrollView>
     );
-    // return (   <ScrollView>     <Panel/>     <PanelHome
-    // srcBR={this.state.brPizza}       logo={this.state.logoPizza}
-    // title={this.state.titlePizza}       icPlace={this.state.icPlace}
-    // titles2={this.state.title2Pizza}       context2={this.state.context2Pizza}
-    //    txt1={this.state.txt1Pizza}       txt2={this.state.txt2Pizza}
-    // txt3={this.state.txt3Pizza}       txt4={this.state.txt4Pizza}/>
-    // <PartyAround/>     <BonusWithList/>     <PanelHome
-    // srcBR={this.state.brCf}       logo={this.state.logoCf}
-    // title={this.state.titleCf}       icPlace={this.state.icPlace}
-    // titles2={this.state.title2Cf}       context2={this.state.context2Cf}
-    // txt1={this.state.txt1Cf}       txt2={this.state.txt2Cf}
-    // txt3={this.state.txt3Cf}       txt4={this.state.txt4Cf}/>     <HotGift/>
-    // <PanelHome       srcBR={this.state.brS}       title={this.state.titleS}
-    // icPlace={this.state.icPlace}       titles2={this.state.title2S}
-    // context2={this.state.context2S}       txt1={this.state.txt1S}
-    // txt2={this.state.txt2S}       txt3={this.state.txt3S}
-    // txt4={this.state.txt4S}/>   </ScrollView> );
   }
 }
 
