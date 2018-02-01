@@ -24,6 +24,8 @@ import BtnOK from './com/BtnOK';
 import TouchText2 from './com/TouchText2';
 import BtnCreateBack from './com/BtnCreateBack';
 import ButtonFace from './com/ButtonFace';
+import RouterMain from './RouterMain';
+
 const imageSource = {
   userLogin: {
     mail: require('../source/images/icon/ic_mail.png'),

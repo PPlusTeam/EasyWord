@@ -20,7 +20,6 @@ import Line from './com/Line';
 import BtnOK from './com/BtnOK';
 import TouchText2 from './com/TouchText2';
 import BtnCreateBack from './com/BtnCreateBack';
-
 const imageSource = {
   userLogin: {
     user: require('../source/images/icon/ic_u.png'),
@@ -82,17 +81,7 @@ export default class Register extends Component {
           ._UpdateInfo
           .bind(this)}/>
         <View>
-          {/* <TouchableOpacity >
-            <View style={styles.btnFace}>
-              <Image source={require('../source/images/icF.png')}/>
-              <Text
-                style={{
-                color: 'white',
-                marginLeft: 20,
-                fontSize: 18
-              }}>{this.state.facebook}</Text>
-            </View>
-          </TouchableOpacity> */}
+        <ButtonFace/>
 
           {/* Button Create Acc */}
           <BtnCreateBack

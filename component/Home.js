@@ -12,6 +12,7 @@ import {StackNavigator} from 'react-navigation';
 
 import Party from './Party';
 import ContentHome from './ContentHome';
+
 const Navigation = StackNavigator({
     ContentHome: {
         screen: ContentHome,
@@ -39,32 +40,26 @@ const Navigation = StackNavigator({
         }
     }
 }, {});
-export default Navigation;
 
+//  Navigation;
+
+export default class Show extends React.Component {
+    render() {
+        console.log("Class Render");
+        return (
+            <View style={{
+                display: 'flex',
+                flex: 1,
+                backgroundColor: 'red'
+            }}>
+                <Navigation/>
+            </View>
+        );
+    }
+}
 const styles = StyleSheet.create({
     iconRight: {
         height: 30,
         width: 30
     }
 });
-class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            home: 'dawdawd'
-        }
-    }
-
-    render() {
-        return (
-            <View>
-                <Text
-                    style={{
-                    backgroundColor: 'red',
-                    width: null
-                }}>{this.state.home}</Text>
-            </View>
-
-        );
-    }
-}

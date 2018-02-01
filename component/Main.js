@@ -5,6 +5,8 @@ import {TabNavigator} from 'react-navigation';
 import FontAwesome, {Icon} from 'react-native-fontawesome';
 import Home from './Home';
 import Party from './Party';
+import ContentHome from './ContentHome';
+
 
 const Navigation = TabNavigator({
   MainHome: {
@@ -12,7 +14,6 @@ const Navigation = TabNavigator({
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image style={[styles.icon]} source={require('../source/images/icon/buger_choice.png')}/>),
     }
-
   },
   Tab2: {
     screen: Party,
@@ -21,7 +22,7 @@ const Navigation = TabNavigator({
     }
   },
   Tab3: {
-    screen: Party,
+    screen: ContentHome,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image style={[styles.logo]} source={require('../source/images/icon/ic_logo.png')}/>)
     }
@@ -64,9 +65,11 @@ const Navigation = TabNavigator({
       marginTop: 0,
       marginBottom: 0,
       padding: 0
-    }
+    },
+    // animationEnabled: true,
+    initialRouteName: 'MainHome',
+    swipeEnabled: true,
   }
-
 })
 export default Navigation;
 const styles = StyleSheet.create({

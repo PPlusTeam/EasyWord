@@ -19,23 +19,30 @@ import UpdateProfile from './component/UpdateProfile';
 import UpdateInfoMail from './component/UpdateInfoMail';
 import ButtonFace from './component/com/ButtonFace';
 import ContentHome from './component/ContentHome';
+import HotGift from './component/com/HotGift';
+import RouterMain from './component/RouterMain';
+import Home from './component/Home';
 
 
 // import ButtonFace from './component/com/ButtonFace';
 // import LoginFacebook from './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  ContentHome:{screen:ContentHome},
+  // HotGift:{screen:HotGift},
   Main: {
     screen:Main
   },
+  ContentHome:{screen:ContentHome},
   Userlogin:{screen: Userlogin},
+  
+  Home:{screen:Home},
   ButtonFace : {screen: ButtonFace},
   Register: {screen: Register},
   Verify:{screen:Verify},
   UpdateInfoMail:{screen:UpdateInfoMail},
   FogotPass:{screen:FogotPass},
   Splash:{screen: Splash},
+  RouterMain:{screen:RouterMain}
 },
 {
   headerMode:'none'

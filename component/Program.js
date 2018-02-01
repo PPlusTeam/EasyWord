@@ -5,139 +5,88 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from 'react-native';
-import {TabNavigator} from 'react-navigation';
+
+import PanelHome from './com/PanelHome';
+import Panel from './com/Panel';
+import PartyAround from './com/PartyAround';
+import BonusWithList from './com/BonusWithList';
+import HotGift from './com/HotGift';
 
 export default class Program extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text1: 'Không thể hấp dẫn hơn được',
-      src1: require('../source/images/icon/headerun.png'),
-      ic1: require('../source/images/icon/ic_coin.png'),
-      ic2: require('../source/images/icon/ic_diamond.png'),
-      csrc: false,
-      txtCoin: "1.000 E.P",
-      txtDiamond: 'Free "Salad cá ngừ"',
-      txtDate: 'Còn lại 35 ngày'
+      brPizza: require('../source/images/pizza.png'),
+      brCf: require('../source/images/brCf.jpg'),
+      brS: require('../source/images/brSoup.jpg'),
+
+      logoPizza: require('../source/images/logo_pizzahut.png'),
+      logoCf: require('../source/images/logo_startbuck.png'),
+
+      icPlace: require('../source/images/icon/ic_direc.png'),
+
+      titlePizza: 'Không thể hấp dẫn hơn đượdawdadadawdadawdc   ',
+      title2Pizza: 'Pizza hut',
+      context2Pizza: ' - Thả ga ăn pizza mùa mưa cùng bạn bè ngay hôm nay với Pizza Hut...',
+      txt1Pizza: '1.000 E.P',
+      txt2Pizza: 'Free "Salad cá ngừ',
+      txt3Pizza: 'Còn lại 35 ngày',
+      txt4Pizza: '600m',
+
+      titleCf: 'Cơ hội trúng iPhone 7 siêu cool',
+      title2Cf: 'StartBuck',
+      context2Cf: ' - Rủ bạn bè ngay hôm nay : > Thoải mái sang chảnh không lo về giá cả...',
+      txt1Cf: '5.000 E.P',
+      txt2Cf: 'Giảm giá 30%',
+      txt3Cf: 'Còn lại 35',
+      txt4Cf: '3.8km',
+
+      titleS: 'Lẩu nấm hấp dẫn mùa mưa',
+      title2S: 'Lẩu nấm Cà Rốt',
+      context2S: ' - Trời ơi!!! Mưa to như thế thì còn gì hơn một nồi lẩu nấm nóng hổi cùng bạn bè' +
+          ' :>',
+      txt1S: '1.000 E.P',
+      txt2S: 'Giảm ngay 25%',
+      txt3S: 'Còn lại 25',
+      txt4S: '2.5km'
     };
   }
-  _pressIconHeart() {
-    console.log("press");
-    if (this.state.csrc == false) {
-      this.setState({src1: require('../source/images/icon/headerChoose.png')});
-      this.setState({csrc: true})
-    } else {
-      this.setState({src1: require('../source/images/icon/headerun.png')});
-      this.setState({csrc: false})
-    }
+
+  componentDidMount(){
+    console.log('load Program');
   }
+
   render() {
+
     return (
-
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.background}
-          source={require('../source/images/pizza.png')}>
-          <Image
-            style={styles.logoPizza}
-            source={require('../source/images/logo_pizzahut.png')}/>
-          <View style={{
-            backgroundColor: 'red',
-            position:'absolute',
-            bottom:0,
-            alignSelf:'center'
-          }}>
-            <View style={styles.view2}>
-              <Text style={styles.text1}>
-                {this.state.text1}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                this._pressIconHeart()
-              }}>
-                <Image source={this.state.src1} style={styles.iconHeart}/>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.view3}>
-              <View style={styles.view4}>
-                <Image style={styles.icCoin} source={this.state.ic1}/>
-                <Text style={styles.text}>{this.state.txtCoin}</Text>
-                <Image style={styles.icCoin2} source={this.state.ic2}/>
-                <Text style={styles.text}>{this.state.txtDiamond}</Text>
-              </View>
-              <Text style={styles.text}>{this.state.txtDate}</Text>
-            </View>
-
-          </View>
-        </ImageBackground>
+      <View style={{
+        flex: 1,
+        backgroundColor: '#ff0000'
+      }}>
+        <Text>Program</Text>
       </View>
     );
+    // return (   <ScrollView>     <Panel/>     <PanelHome
+    // srcBR={this.state.brPizza}       logo={this.state.logoPizza}
+    // title={this.state.titlePizza}       icPlace={this.state.icPlace}
+    // titles2={this.state.title2Pizza}       context2={this.state.context2Pizza}
+    //    txt1={this.state.txt1Pizza}       txt2={this.state.txt2Pizza}
+    // txt3={this.state.txt3Pizza}       txt4={this.state.txt4Pizza}/>
+    // <PartyAround/>     <BonusWithList/>     <PanelHome
+    // srcBR={this.state.brCf}       logo={this.state.logoCf}
+    // title={this.state.titleCf}       icPlace={this.state.icPlace}
+    // titles2={this.state.title2Cf}       context2={this.state.context2Cf}
+    // txt1={this.state.txt1Cf}       txt2={this.state.txt2Cf}
+    // txt3={this.state.txt3Cf}       txt4={this.state.txt4Cf}/>     <HotGift/>
+    // <PanelHome       srcBR={this.state.brS}       title={this.state.titleS}
+    // icPlace={this.state.icPlace}       titles2={this.state.title2S}
+    // context2={this.state.context2S}       txt1={this.state.txt1S}
+    // txt2={this.state.txt2S}       txt3={this.state.txt3S}
+    // txt4={this.state.txt4S}/>   </ScrollView> );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    top: 100,
-    height: 200,
-    width: null,
-    backgroundColor: 'red'
-  },
-  background: {
-    flex: 1,
-    height: undefined,
-    width: undefined
-  },
-  view2: {
-    flexDirection: 'row',
-    backgroundColor: 'blue',
-    justifyContent: 'space-between',
-  },
-  view3: {
-    flexDirection: 'row',
-    backgroundColor: 'yellow',
-    marginLeft:20,
-    
-
-  },
-  view4:{
-    backgroundColor: 'pink',
-    paddingLeft:10,
-    flexDirection: 'row',
-  },
-
-  text1: {
-    alignSelf: 'center',
-    color: 'white',
-    fontSize: 22
-  },
-  text: {
-    alignSelf: 'center',
-    color: 'white',
-    fontSize: 19
-  },
-  logoPizza: {
-    position: 'relative',
-    height: 70,
-    width: 70,
-    alignSelf: 'center',
-    backgroundColor: 'yellow'
-  },
-  iconHeart: {
-    height: 35,
-    width: 35,
-    alignSelf: 'center'
-  },
-  icCoin: {
-    height: 30,
-    width: 30,
-    alignSelf: 'center'
-  },
-  icCoin2: {
-    height: 40,
-    width: 40,
-    alignSelf: 'center'
-  }
-});
+const styles = StyleSheet.create({});
