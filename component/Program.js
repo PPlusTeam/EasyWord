@@ -60,9 +60,6 @@ export default class Program extends React.Component {
   }
 
   render() {
-
-    // return (   <View style={{     flex: 1,     backgroundColor: 'yellow'   }}>
-    //  <Text>Prodawdawdawdawgram</Text>   </View> );
     return (
       <ScrollView>
         <Panel/>

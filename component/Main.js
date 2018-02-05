@@ -63,8 +63,6 @@ const Navigation = TabNavigator({
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
-    // showLabel: (Platform.OS !== 'android'), //No label for
-    // Android
     activeTintColor: 'black',
     inactiveTintColor: 'gray',
     tabStyle: {

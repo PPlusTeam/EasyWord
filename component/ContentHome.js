@@ -29,7 +29,7 @@ const TabNav = TabNavigator({
   }
 }, {
   tabBarOptions: {
-    // showLabel: true,
+
     titleStyle: {
       justifyContent: 'center',
       alignItems: 'center'
@@ -39,18 +39,17 @@ const TabNav = TabNavigator({
     activeTintColor: '#141E23',
     inactiveTintColor: 'gray',
     tabStyle: {
-      paddingTop: 0,
-      margin: 0, //Padding 0 here,   },   style: {     backgroundColor: 'white',
-      height: 70,
+      // paddingTop: 0,
+      height: 60,
       width: null,
-      padding: 0,
-      flexDirection: 'column',
-      justifyContent: 'center'
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     style: {
       backgroundColor: 'white',
-      padding: 0,
       flexDirection: 'column',
+      margin:0,
       justifyContent: 'center',
     },
     indicatorStyle: {

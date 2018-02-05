@@ -17,7 +17,7 @@ const Navigation = StackNavigator({
     ContentHome: {
         screen: ContentHome,
         navigationOptions: {
-            title: 'Trang Chu',
+            title: 'Trang Chủ',
             headerStyle: {
                 backgroundColor: '#141E23'
             },

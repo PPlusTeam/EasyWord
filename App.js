@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 
-import {StackNavigator,TabNavigator} from 'react-navigation';
+import {StackNavigator, TabNavigator} from 'react-navigation';
 
 import Userlogin from './component/Userlogin';
 import Splash from './component/Splash';
@@ -23,35 +18,51 @@ import HotGift from './component/com/HotGift';
 import RouterMain from './component/RouterMain';
 import Home from './component/Home';
 
+import FireBase from './component/FireBase';
 
-// import ButtonFace from './component/com/ButtonFace';
-// import LoginFacebook from './component/com/LoginFacebook';
+// import ButtonFace from './component/com/ButtonFace'; import LoginFacebook
+// from './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  // HotGift:{screen:HotGift},
-  Main: {
-    screen:Main
-  },
-  ContentHome:{screen:ContentHome},
-  Userlogin:{screen: Userlogin},
+  FireBase:{screen:FireBase},
   
-  Home:{screen:Home},
-  ButtonFace : {screen: ButtonFace},
-  Register: {screen: Register},
-  Verify:{screen:Verify},
-  UpdateInfoMail:{screen:UpdateInfoMail},
-  FogotPass:{screen:FogotPass},
-  Splash:{screen: Splash},
-  RouterMain:{screen:RouterMain}
-},
-{
-  headerMode:'none'
-});
+  Userlogin: {
+    screen: Userlogin
+  },
+  Main: {
+    screen: Main
+  },
+  ContentHome: {
+    screen: ContentHome
+  },
+  Home: {
+    screen: Home
+  },
+  ButtonFace: {
+    screen: ButtonFace
+  },
+  Register: {
+    screen: Register
+  },
+  Verify: {
+    screen: Verify
+  },
+  UpdateInfoMail: {
+    screen: UpdateInfoMail
+  },
+  FogotPass: {
+    screen: FogotPass
+  },
+  Splash: {
+    screen: Splash
+  },
+  RouterMain: {
+    screen: RouterMain
+  }
+}, {headerMode: 'none'});
 export default Navigation;
 const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+  ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu',
+  android: 'Double tap R on your keyboard to reload,\nShake or press menu button for dev men' +
+      'u'
 });
-

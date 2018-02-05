@@ -26,6 +26,10 @@ import BtnCreateBack from './com/BtnCreateBack';
 import ButtonFace from './com/ButtonFace';
 import RouterMain from './RouterMain';
 
+//Firebase
+
+import Demo from './FireBase/Demo';
+
 const imageSource = {
   userLogin: {
     mail: require('../source/images/icon/ic_mail.png'),
@@ -50,12 +54,21 @@ export default class Userlogin extends Component {
     };
   }
   _Login() {
-    Keyboard.dismiss();
 
-    this
-      .props
-      .navigation
-      .navigate('Main')
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
+
+
+    Keyboard.dismiss();
+    Alert.alert(this.cEmail + " "+this.cPass);
+    // this
+    //   .props
+    //   .navigation
+    //   .navigate('Main')
   }
   _ForgotPass() {
     Keyboard.dismiss();
