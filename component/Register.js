@@ -8,7 +8,11 @@ import {
   CustomButton,
   Button,
   TouchableOpacity,
-  Icon
+  Icon,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  Keyboard
 } from 'react-native';
 
 import Logo from './com/Logo';
@@ -20,6 +24,9 @@ import Line from './com/Line';
 import BtnOK from './com/BtnOK';
 import TouchText2 from './com/TouchText2';
 import BtnCreateBack from './com/BtnCreateBack';
+
+import {Firebase} from './FireBase';
+
 const imageSource = {
   userLogin: {
     user: require('../source/images/icon/ic_u.png'),
@@ -39,7 +46,14 @@ export default class Register extends Component {
       name: "Họ và tên",
       email: "Địa chỉ Email",
       pass: "Mật khẩu",
-      back: "Quay lại"
+      repass: "Nhập lại mật khẩu",
+      back: "Quay lại",
+      dissimilar: 'Mật khẩu không giống nhau, xin kiểm tra lại!',
+      errorNull: 'Xin nhập đủ địa chỉ email, mật khẩu',
+      checkE: '',
+      checkP: '',
+      checkReP: '',
+      enoughLength: 'Xin nhập mật khẩu lớn hơn 8 ký tự'
     };
   }
 
@@ -52,11 +66,36 @@ export default class Register extends Component {
       .navigation
       .navigate('Userlogin')
   }
-  _UpdateInfo() {
-    this
-      .props
-      .navigation
-      .navigate('UpdateInfoMail')
+  _RegisterSuccess() {
+    Keyboard.dismiss();
+    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    if (this.state.checkE == '' && this.state.checkP == '') {
+      Alert.alert(this.state.errorNull);
+    } else if (pattern.test(this.state.checkE) === false) {
+      Alert.alert("Xin nhập đúng định dạng email!")
+      return false;
+    } else if (this.state.checkReP != this.state.checkP) {
+      Alert.alert(this.state.dissimilar);
+    } else if (this.state.checkP.length < 8) {
+      Alert.alert(this.state.enoughLength)
+    } else {
+      Firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.checkE, this.state.checkP)
+        .then(() => {
+          Alert.alert('Success Register')
+          this
+            .props
+            .navigation
+            .navigate('UpdateInfoMail')
+        })
+        .catch(function (error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
+    }
   }
   render() {
     var {navigate} = this.props.navigation;
@@ -65,12 +104,31 @@ export default class Register extends Component {
       <View style={styles.container}>
         <Logo sologan={this.state.sologan}/>
         <View style={s.viewLogin}>
-          <TXTinput SRCimage={imageSource.userLogin.user} txtContent={this.state.name}/>
+          <TXTinput
+            SRCimage={imageSource.userLogin.mail}
+            keyboardType="email-address"
+            onChangeText={(value) => {
+            this.setState({checkE: value})
+          }}
+            txtContent={this.state.email}/>
           <Line/>
-          <TXTinput SRCimage={imageSource.userLogin.mail} txtContent={this.state.email}/>
+          <TXTinput
+            SRCimage={imageSource.userLogin.pass}
+            secureTextEntry={true}
+            onChangeText={(value) => {
+            this.setState({checkP: value})
+          }}
+            txtContent={this.state.pass}/>
           <Line/>
-          <TXTinput SRCimage={imageSource.userLogin.pass} txtContent={this.state.pass}/>
+          <TXTinput
+            SRCimage={imageSource.userLogin.pass}
+            secureTextEntry={true}
+            onChangeText={(value) => {
+            this.setState({checkReP: value})
+          }}
+            txtContent={this.state.repass}/>
         </View>
+
         <BtnOK
           style={{
           top: -120,
@@ -78,11 +136,9 @@ export default class Register extends Component {
           zIndex: 1
         }}
           onPress={this
-          ._UpdateInfo
+          ._RegisterSuccess
           .bind(this)}/>
         <View>
-        <ButtonFace/>
-
           {/* Button Create Acc */}
           <BtnCreateBack
             text={this.state.back}
@@ -99,11 +155,11 @@ export default class Register extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121A1E'
+    backgroundColor: '#121A1E',
+    position: 'relative'
   },
   container_login: {
     backgroundColor: 'blue',

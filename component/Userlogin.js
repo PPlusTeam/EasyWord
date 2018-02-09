@@ -11,7 +11,8 @@ import {
   Keyboard,
   Icon,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Modal
 } from 'react-native';
 
 import Logo from './com/Logo';
@@ -25,10 +26,7 @@ import TouchText2 from './com/TouchText2';
 import BtnCreateBack from './com/BtnCreateBack';
 import ButtonFace from './com/ButtonFace';
 import RouterMain from './RouterMain';
-
-//Firebase
-
-import Demo from './FireBase/Demo';
+import {Firebase} from './FireBase';
 
 const imageSource = {
   userLogin: {
@@ -36,13 +34,14 @@ const imageSource = {
     pass: require('../source/images/icon/ic_pw.png')
   }
 };
-Keyboard.dismiss(); 
+Keyboard.dismiss();
 export default class Userlogin extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       cEmail: '',
       cPass: '',
+      modalVisible: false,
       sologan: "Đăng nhập để nhận vô vàn giải thưởng trong hệ thống của chúng tôi",
       forgot: "Quên mật khẩu ?",
       or: "Hoặc",
@@ -50,25 +49,37 @@ export default class Userlogin extends Component {
       register: "Tạo tài khoản mới",
       rule: "Điều khoản sử dụng",
       email: "Địa chỉ Email",
-      pass: "Mật khẩu"
+      pass: "Mật khẩu",
+      nullError: "Xin Email và mật khẩu",
+      loginSuccess1: "Đăng nhập thành công",
+      loginSuccess2: "Xin chờ giây lát..."
     };
   }
   _Login() {
+    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
+    Firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.cEmail, this.state.cPass)
+      .then(() => {
+        this.setState({modalVisible: true});
+        this
+          .props
+          .navigation
+          .navigate('Main');
+        this.setState({modalVisible: false});
+      })
+      .catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert("Error: " + "Xin kiểm tra lại email và mật khẩu", errorMessage, [
+          {
+            text: "Ok"
+          }
+        ]);
+      })
 
-
-    Keyboard.dismiss();
-    Alert.alert(this.cEmail + " "+this.cPass);
-    // this
-    //   .props
-    //   .navigation
-    //   .navigate('Main')
+      // this   .props   .navigation   .navigate('Main')
   }
   _ForgotPass() {
     Keyboard.dismiss();
@@ -96,26 +107,36 @@ export default class Userlogin extends Component {
     var {navigate} = this.props.navigation;
 
     return (
-
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <Modal
+          visible={this.state.modalVisible}
+          animationType={'fade'}
+          transparent={true}
+          onRequestClose={() => this.closeModal()}>
+          <View style={styles.modalContainer}>
+            <View style={styles.innerContainer}>
+              <Text style={styles.innerContainerText}>{this.state.loginSuccess1}</Text>
+              <Text style={styles.innerContainerText}>{this.state.loginSuccess2}</Text>
+            </View>
+          </View>
+        </Modal>
         <View
           onPress={Keyboard.dismiss}
           keyboardShouldPersistTaps={false}
           accessible={false}>
           <Logo sologan={this.state.sologan}/>
           <View style={styles.viewLogin}>
-
             <TXTinput
-              onChangeText={(cEmail) => this.setSate({cEmail})}
+              onChangeText={(value) => this.setState({cEmail: value})}
               SRCimage={imageSource.userLogin.mail}
+              keyboardType="email-address"
               txtContent={this.state.email}/>
-
             <Line/>
-
-            <TXTinputPass
+            <TXTinput
+              onChangeText={(value) => this.setState({cPass: value})}
               SRCimage={imageSource.userLogin.pass}
+              secureTextEntry={true}
               txtContent={this.state.pass}/>
-
           </View>
 
           <BtnOK
@@ -156,6 +177,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121A1E'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+    opacity: 0.8
+  },
+  innerContainer: {
+    alignItems: 'center'
+  },
+  innerContainerText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10
   },
   container_login: {
     backgroundColor: 'blue',

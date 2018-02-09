@@ -10,7 +10,6 @@ export default class BtnOK extends React.Component {
                 onPress={this.props.onPress}    
             >
                 <Image source={require('../../source/images/btnOK.png')}/>
-
             </TouchableOpacity>
         );
     }

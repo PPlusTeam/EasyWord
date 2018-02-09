@@ -18,9 +18,9 @@ export default class TXTinput extends React.Component {
                     source={this.props.SRCimage}/>
                 <TextInput
                     style={styles.edtName}
-                    onEndEditing={this.clearFocus}
-                    keyboardType='email-address'
-                    onChangeText={this.props.onChangetext}
+                    keyboardType={this.props.keyboardType}
+                    secureTextEntry={this.props.secureTextEntry}
+                    onChangeText={this.props.onChangeText}
                     placeholder={this.props.txtContent}
                     underlineColorAndroid='transparent'/>
             </View>
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
     edtName: {
         width: 200,
         marginLeft: 20,
-        fontSize: 20,
+        fontSize: 20
     }
 });

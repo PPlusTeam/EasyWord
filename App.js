@@ -17,17 +17,35 @@ import ContentHome from './component/ContentHome';
 import HotGift from './component/com/HotGift';
 import RouterMain from './component/RouterMain';
 import Home from './component/Home';
-
+import TestModal from './component/TestModal';
+import login from './DemeOfMob306/login';
+import register from './DemeOfMob306/register';
+import home from './DemeOfMob306/home';
+import upImage from './DemeOfMob306/upImage';
 import FireBase from './component/FireBase';
-
+// import List from './component/List';
 // import ButtonFace from './component/com/ButtonFace'; import LoginFacebook
 // from './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  FireBase:{screen:FireBase},
-  
+  // List: {
+  //   screen: List
+  // },
   Userlogin: {
     screen: Userlogin
+  },
+  login: {
+    screen: login
+  },
+  register: {
+    screen: register
+  },
+  home: {
+    screen: home
+  },
+
+  Register: {
+    screen: Register
   },
   Main: {
     screen: Main
