@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     logo: {
         height: 150,
         width: 250,
-        marginTop: 10,
         alignSelf: 'center'
       },
       sologan: {

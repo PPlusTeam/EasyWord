@@ -12,7 +12,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Keyboard
+  Keyboard,
+  Dimensions
 } from 'react-native';
 
 import Logo from './com/Logo';
@@ -34,6 +35,7 @@ const imageSource = {
     pass: require('../source/images/icon/ic_pw.png')
   }
 };
+const {width, height} = Dimensions.get('window');
 
 export default class Register extends Component {
 
@@ -159,7 +161,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121A1E',
-    position: 'relative'
+    position: 'relative',
+    justifyContent: 'center'
   },
   container_login: {
     backgroundColor: 'blue',

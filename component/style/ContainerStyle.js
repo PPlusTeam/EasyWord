@@ -1,9 +1,10 @@
+import { Dimensions } from 'react-native';
 'use strict';
 var React = require('react-native');
 
 var {StyleSheet} = React;
 
-
+const {width, height} = Dimensions.get('window');
 module.exports = StyleSheet.create({
     container: {
         flex: 1,

@@ -8,7 +8,8 @@ import {
   CustomButton,
   Button,
   TouchableOpacity,
-  Icon
+  Icon,
+  Dimensions
 } from 'react-native';
 
 import ButtonFace from './com/ButtonFace';
@@ -47,7 +48,7 @@ export default class FogotPass extends Component {
     this
       .props
       .navigation
-      .back();
+      .navigate('Userlogin');
   }
   _UpdateInfoMail() {
     this
@@ -64,20 +65,17 @@ export default class FogotPass extends Component {
 
         <Logo sologan={this.state.sologan}/>
 
-        <View style={styles.viewLogin}>
+        <View style={styles.containerView}>
+          <View style={styles.viewLogin}>
+            <TXTinput SRCimage={imageSource.userLogin.mail} txtContent={this.state.mail}/>
+          </View>
 
-          <TXTinput SRCimage={imageSource.userLogin.mail} txtContent={this.state.mail}/>
-        </View>
-
-        <BtnOK
-          onPress={this
-          ._UpdateInfoMail
-          .bind(this)}
-          style={{
-          top: -70,
-          left: 315,
-          zIndex: 1
-        }}/>
+          <BtnOK
+            onPress={this
+            ._UpdateInfoMail
+            .bind(this)}
+            style={styles.buttonOK}/>
+          </View>
 
         <TouchText2 txtContent={this.state.text2}/>
         <Or or={this.state.or}/>
@@ -92,11 +90,19 @@ export default class FogotPass extends Component {
     );
   }
 }
-
+const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121A1E'
+  },
+  containerView:{
+    // backgroundColor:'pink',
+    alignItems: 'center',
+    justifyContent:'center',
+    marginTop:20,
+    marginBottom:20,
+    
   },
   container_login: {
     backgroundColor: 'blue',
@@ -104,20 +110,23 @@ const styles = StyleSheet.create({
   },
   viewLogin: {
     backgroundColor: 'white',
-    top: 20,
-    width: 280,
-    height: 100,
+    width: width - 100,
+    height: 80,
     flexDirection: 'row',
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 10,
-    padding: 10,
     zIndex: 1
   },
   edtName: {
     padding: 20
   },
-  edtPass: {},
+  buttonOK: {
+    position:'absolute',
+    zIndex:999,
+    alignSelf: 'flex-end',
+    marginRight: '4%'
+  },
   logo: {
     height: 150,
     width: 250,
@@ -134,7 +143,8 @@ const styles = StyleSheet.create({
   fgP: {
     color: 'white',
     alignSelf: 'center',
-    position: 'relative'
+    position: 'relative',
+    marginBottom: 10,
   },
   viewLine: {
     flexDirection: 'row',

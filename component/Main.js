@@ -13,10 +13,10 @@ import FontAwesome, {Icon} from 'react-native-fontawesome';
 import Home from './Home';
 import Party from './Party';
 import ContentHome from './ContentHome';
-
+import List from './List';
 const Navigation = TabNavigator({
   MainHome: {
-    screen: Home,
+    screen: List,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.icon]}
@@ -32,7 +32,7 @@ const Navigation = TabNavigator({
     }
   },
   Tab3: {
-    screen: ContentHome,
+    screen: Home,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.logo]}

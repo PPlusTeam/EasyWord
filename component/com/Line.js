@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View,} from 'react-native';
+import {View, Dimensions,} from 'react-native';
 
 export default class Line extends React.Component {
     render() {
@@ -7,8 +7,9 @@ export default class Line extends React.Component {
             style={{
             height: 1,
             backgroundColor: 'black',
-            width: 250,
+            width: width-130,
             alignSelf: 'center'
         }}/>);
     }
 }
+const {height, width} = Dimensions.get('window');

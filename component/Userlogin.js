@@ -12,7 +12,8 @@ import {
   Icon,
   Alert,
   KeyboardAvoidingView,
-  Modal
+  Modal,
+  Dimensions
 } from 'react-native';
 
 import Logo from './com/Logo';
@@ -33,8 +34,10 @@ const imageSource = {
     mail: require('../source/images/icon/ic_mail.png'),
     pass: require('../source/images/icon/ic_pw.png')
   }
+
 };
 Keyboard.dismiss();
+const {width, height} = Dimensions.get('window');
 export default class Userlogin extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +60,6 @@ export default class Userlogin extends Component {
   }
   _Login() {
     let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-
     Firebase
       .auth()
       .signInWithEmailAndPassword(this.state.cEmail, this.state.cPass)
@@ -72,14 +74,12 @@ export default class Userlogin extends Component {
       .catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
-        Alert.alert("Error: " + "Xin kiểm tra lại email và mật khẩu", errorMessage, [
+        Alert.alert("Error: Xin kiểm tra lại email và mật khẩu", errorMessage, [
           {
             text: "Ok"
           }
         ]);
       })
-
-      // this   .props   .navigation   .navigate('Main')
   }
   _ForgotPass() {
     Keyboard.dismiss();
@@ -120,34 +120,32 @@ export default class Userlogin extends Component {
             </View>
           </View>
         </Modal>
-        <View
-          onPress={Keyboard.dismiss}
-          keyboardShouldPersistTaps={false}
-          accessible={false}>
+        <View onPress={Keyboard.dismiss} accessible={false}>
           <Logo sologan={this.state.sologan}/>
-          <View style={styles.viewLogin}>
-            <TXTinput
-              onChangeText={(value) => this.setState({cEmail: value})}
-              SRCimage={imageSource.userLogin.mail}
-              keyboardType="email-address"
-              txtContent={this.state.email}/>
-            <Line/>
-            <TXTinput
-              onChangeText={(value) => this.setState({cPass: value})}
-              SRCimage={imageSource.userLogin.pass}
-              secureTextEntry={true}
-              txtContent={this.state.pass}/>
+          <View style={styles.viewAllLogin}>
+            <View style={styles.viewLogin}>
+              <TXTinput
+                onChangeText={(value) => this.setState({cEmail: value})}
+                SRCimage={imageSource.userLogin.mail}
+                keyboardType="email-address"
+                txtContent={this.state.email}/>
+              <Line/>
+              <TXTinput
+                onChangeText={(value) => this.setState({cPass: value})}
+                SRCimage={imageSource.userLogin.pass}
+                secureTextEntry={true}
+                txtContent={this.state.pass}/>
+            </View>
+            <BtnOK
+              onPress={this
+              ._Login
+              .bind(this)}
+              style={{
+              alignSelf: 'flex-end',
+              position: 'absolute',
+              zIndex: 9999
+            }}/>
           </View>
-
-          <BtnOK
-            onPress={this
-            ._Login
-            .bind(this)}
-            style={{
-            top: -80,
-            left: 315,
-            zIndex: 1
-          }}/>
 
           <TouchText2
             txtContent={this.state.forgot}
@@ -156,13 +154,14 @@ export default class Userlogin extends Component {
             .bind(this)}/>
 
           <Or or={this.state.or}/>
+
           <ButtonFace/>
+
           <BtnCreateBack
             onPress={this
             ._Register
             .bind(this)}
             text={this.state.register}/>
-
           <Rule/>
 
         </View>
@@ -176,7 +175,8 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#121A1E'
+    backgroundColor: '#121A1E',
+   
   },
   modalContainer: {
     flex: 1,
@@ -197,14 +197,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     flexDirection: 'column'
   },
+  viewAllLogin: {
+    // backgroundColor:'red',
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   viewLogin: {
     backgroundColor: 'white',
-    top: 20,
-    width: 280,
+    alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 10,
-    padding: 10,
-    zIndex: 1
+    justifyContent: 'center'
   },
 
   // windowSoftInputMode:'adjustResize'

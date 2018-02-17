@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TextInput, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {View, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions} from 'react-native';
 
 export default class TXTinput extends React.Component {
     constructor() {
@@ -27,6 +27,8 @@ export default class TXTinput extends React.Component {
         );
     }
 }
+
+const {width, height}= Dimensions.get('window');
 class TXTinputPass extends React.Component {
     constructor() {
         super();
@@ -36,15 +38,12 @@ class TXTinputPass extends React.Component {
         return (
             <View style={styles.viewInput}>
                 <Image
-                    style={{
-                    height: 20,
-                    width: 20,
-                    alignSelf: 'center'
-                }}
+                    style={styles.icon}
                     source={this.props.SRCimage}/>
                 <TextInput
                     style={styles.edtName}
                     secureTextEntry
+                    keyboardType={this.props.keyboardType}
                     placeholder={this.props.txtContent}
                     underlineColorAndroid='transparent'/>
             </View>
@@ -53,11 +52,22 @@ class TXTinputPass extends React.Component {
 }
 const styles = StyleSheet.create({
     viewInput: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding:width*2.6/187.5,
+        // backgroundColor:'red',
+        borderRadius:10,
+        paddingLeft: 20,        
     },
     edtName: {
-        width: 200,
-        marginLeft: 20,
-        fontSize: 20
+        width: width-150,
+        fontSize: 20,
+        marginLeft:10,
+    },
+    icon:{
+        height: 20,
+        width: 20,
+        alignSelf: 'center'
     }
 });

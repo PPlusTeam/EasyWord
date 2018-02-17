@@ -23,14 +23,20 @@ import register from './DemeOfMob306/register';
 import home from './DemeOfMob306/home';
 import upImage from './DemeOfMob306/upImage';
 import FireBase from './component/FireBase';
-// import List from './component/List';
-// import ButtonFace from './component/com/ButtonFace'; import LoginFacebook
-// from './component/com/LoginFacebook';
+// import List from './component/List'; import ButtonFace from
+// './component/com/ButtonFace'; import LoginFacebook from
+// './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
-  // List: {
-  //   screen: List
-  // },
+  Main: {
+    screen: Main
+  },
+  UpdateProfile: {
+    screen: UpdateProfile
+  },
+  FogotPass: {
+    screen: FogotPass
+  },
   Userlogin: {
     screen: Userlogin
   },
@@ -43,13 +49,10 @@ const Navigation = StackNavigator({
   home: {
     screen: home
   },
-
   Register: {
     screen: Register
   },
-  Main: {
-    screen: Main
-  },
+  
   ContentHome: {
     screen: ContentHome
   },
@@ -68,9 +71,7 @@ const Navigation = StackNavigator({
   UpdateInfoMail: {
     screen: UpdateInfoMail
   },
-  FogotPass: {
-    screen: FogotPass
-  },
+
   Splash: {
     screen: Splash
   },

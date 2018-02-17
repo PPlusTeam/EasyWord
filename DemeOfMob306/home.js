@@ -178,10 +178,7 @@ import ImagePicker from 'react-native-image-picker'
 // import RNFetchBlob from 'react-native-fetch-blob'
 
 const storage = Firebase.storage()
-// Prepare Blob support
-// const Blob = RNFetchBlob.polyfill.Blob
-// const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+
 window.Blob = Blob
 const uploadImage = (uri, mime = 'application/octet-stream') => {
     return new Promise((resolve, reject) => {

@@ -9,14 +9,17 @@ import {
   Button,
   TouchableOpacity,
   Icon,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 
 import Logo from './com/Logo';
 import Or from './com/Or';
 import ButtonFace from './com/ButtonFace';
 import Rule from './com/Rule';
-
+import TXTinput from './com/TXTinput'
+import Line from './com/Line'
+import {Firebase} from './FireBase';
 export default class UpdateProfile extends Component {
   static navigationOptions = {
     title: "UpdateProfile"
@@ -31,21 +34,15 @@ export default class UpdateProfile extends Component {
       name: "Họ và tên",
       email: "Địa chỉ Email",
       phone: "Số điện thoại",
-      address: "Khu vực",
+      place: "Địa chỉ",
       next: "Tiếp tục",
       text2: "*Bạn cần nhập đầy đủ thông tin để chúng tôi gửi tặng bạn những phần thưởng, ưu đ" +
-          "ãi phù hợp với bạn."
+          "ãi phù hợp với bạn.",
+      userIcon: require('../source/images/icon/ic_u.png'),
+      phoneIcon: require('../source/images/icon/ic_phone.png'),
+      placeIcon: require('../source/images/icon/ic_place.png')
     };
 
-    async function getMoviesFromApi() {
-      try {
-        let response = await fetch('https://facebook.github.io/react-native/movies.json');
-        let responseJson = await response.json();
-        return responseJson.movies;
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
   }
   render() {
@@ -56,87 +53,16 @@ export default class UpdateProfile extends Component {
       <View style={styles.container}>
         <Logo sologan={this.state.sologan}/>
 
-        
-          <View style={styles.viewLogin}>
-            <View style={styles.viewInput}>
-              <Image
-                style={{
-                height: 20,
-                width: 20,
-                alignSelf: 'center'
-              }}
-                source={require('../source/images/icon/ic_u.png')}/>
-              <TextInput
-                style={styles.edtName}
-                placeholder={this.state.name}
-                underlineColorAndroid='transparent'/>
-            </View>
-
-            <View
-              style={{
-              height: 1,
-              backgroundColor: 'black',
-              width: 250,
-              alignSelf: 'center'
-            }}/>
-
-            <View style={styles.viewInput}>
-              <Image
-                style={{
-                height: 20,
-                width: 20,
-                alignSelf: 'center'
-              }}
-                source={require('../source/images/icon/ic_mail.png')}/>
-              <TextInput
-                style={styles.edtName}
-                placeholder={this.state.email}
-                underlineColorAndroid='transparent'/>
-            </View>
-
-            <View
-              style={{
-              height: 1,
-              backgroundColor: 'black',
-              width: 250,
-              alignSelf: 'center'
-            }}/>
-
-            <View style={styles.viewInput}>
-              <Image
-                style={{
-                height: 20,
-                width: 20,
-                alignSelf: 'center'
-              }}
-                source={require('../source/images/icon/ic_phone.png')}/>
-              <TextInput
-                style={styles.edtName}
-                placeholder={this.state.phone}
-                underlineColorAndroid='transparent'/>
-            </View>
-
-            <View
-              style={{
-              height: 1,
-              backgroundColor: 'black',
-              width: 250,
-              alignSelf: 'center'
-            }}/>
-            <View style={styles.viewInput}>
-              <Image
-                style={{
-                height: 20,
-                width: 20,
-                alignSelf: 'center'
-              }}
-                source={require('../source/images/icon/ic_place.png')}/>
-              <TextInput
-                style={styles.edtName}
-                placeholder={this.state.address}
-                underlineColorAndroid='transparent'/>
-            </View>
-          </View>
+        <View style={styles.viewLogin}>
+          <TXTinput SRCimage={this.state.userIcon} txtContent={this.state.name}/>
+          <Line/>
+          <TXTinput
+            SRCimage={this.state.phoneIcon}
+            keyboardType="phone-pad"
+            txtContent={this.state.phone}/>
+          <Line/>
+          <TXTinput SRCimage={this.state.placeIcon} txtContent={this.state.place}/>
+        </View>
 
         <TouchableOpacity
           style={styles.btnContinute}
@@ -163,10 +89,13 @@ export default class UpdateProfile extends Component {
   }
 }
 
+const {width, height} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121A1E'
+    backgroundColor: '#121A1E',
+    justifyContent: 'center'
   },
   btnContinute: {
     backgroundColor: '#FFD200',
@@ -184,7 +113,7 @@ const styles = StyleSheet.create({
   viewLogin: {
     backgroundColor: 'white',
     marginTop: 20,
-    width: 280,
+    width: width - 100,
     alignSelf: 'center',
     borderRadius: 10,
     padding: 10,
