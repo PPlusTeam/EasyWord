@@ -83,9 +83,7 @@ export default class HomeScreen extends React.Component{
                 <FlatList
                     data={this.state.post}
                     renderItem={({item})=>
-                    
                        <Post keyt={item.key} id={item.id} name={item.name} price={item.price} info={item.info}/>
-                       
                     }
                 />
             </View>
