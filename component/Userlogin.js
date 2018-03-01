@@ -108,6 +108,7 @@ export default class Userlogin extends Component {
 
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        
         <Modal
           visible={this.state.modalVisible}
           animationType={'fade'}
@@ -120,6 +121,7 @@ export default class Userlogin extends Component {
             </View>
           </View>
         </Modal>
+
         <View onPress={Keyboard.dismiss} accessible={false}>
           <Logo sologan={this.state.sologan}/>
           <View style={styles.viewAllLogin}>
@@ -175,8 +177,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#121A1E',
-   
+    backgroundColor: '#121A1E'
   },
   modalContainer: {
     flex: 1,
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'red',
     width: width,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   viewLogin: {
     backgroundColor: 'white',

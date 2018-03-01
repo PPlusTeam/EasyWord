@@ -7,14 +7,35 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
-    FlatList
+    FlatList,
+    Modal
 } from 'react-native';
 
 import {Firebase} from './FireBase';
 
+var ImagePicker = require('react-native-image-picker');
+
+var options = {
+    title: 'Select Avatar',
+    customButtons: [
+        {
+            name: 'fb',
+            title: 'Choose Photo from Facebook'
+        }
+    ],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    }
+};
+
 export default class List extends React.Component {
     constructor(prop) {
         super(prop);
+        //Create a ref is a child of database() or create a ref child at parent knot
+        this.itemRef = Firebase
+            .database()
+            .ref('Product');
         this.state = {
             dataList: [
                 {
@@ -25,64 +46,49 @@ export default class List extends React.Component {
                     key: 'c'
                 }
             ],
-
-            postContent:'',
-            post:[],
-            modalVisible:false,
+            avatarSource: null
         }
 
-        this.itemsRef = Firebase.database().ref().child('shop');
+    }
+    _uploadImage() {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
 
-    }
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                let source = {
+                    uri: response.uri
+                };
 
-    _showDialog = () =>{
-        this.setState({modalVisible:true})
-    }
-    _hideDialog= () =>{
-        this.setState({modalVisible:false})
-    }
-    _post = () => {
-        this.setState({modalVisible:true})
-    }
-    _renderItem = ({item}) => (
-      <MyListItem
-        id={item.id}
-        onPress ={this._onPressItem}
-        selected = {!!this.state.selected.get(item.id)}
-        title = {item.title}/>
-    );
-    _listenForItems(itemsRef){
-        itemsRef.on('value'),(snap) =>
-        {
-            var items = [];
-            snap.forEach(
-                (child) =>
-                {
-                    let t = {
-                        key:(child.key),
-                        id:child.val().id,
-                        name:child.val().name,
-                        price: child.val().price,
-                        info: child.val().info
-                    }
-                    item.push(
-                        t
-                    );
-                }
-            )
-        }
-    }
-    _FlatListSaparator(){
+                // You can also display the image using data: let source = { uri:
+                // 'data:image/jpeg;base64,' + response.data };
 
+                this.setState({avatarSource: source});
+            }
+        });
     }
+    _setDataBase() {
+        Firebase.database()
+            .ref('T').child('Item3')
+            .push({Demo: 'Demo ssssa'});
+    }
+   
     render() {
         return (
             <View style={styles.container}>
-               <FlatList
-               data={this.state.dataList}
-               renderItem={({item})=><Text>{item.key}</Text>}
-               extraData={this.state}
-               />
+                
+                <TouchableOpacity onPress={()=>this._setDataBase()}>
+                    <Text>
+                        Set Realtime DataBase
+                    </Text>
+
+                    
+                </TouchableOpacity>
             </View>
         );
     }

@@ -43,6 +43,7 @@ class TXTinputPass extends React.Component {
                 <TextInput
                     style={styles.edtName}
                     secureTextEntry
+                    onChangeText={this.props.onChangeText}
                     keyboardType={this.props.keyboardType}
                     placeholder={this.props.txtContent}
                     underlineColorAndroid='transparent'/>

@@ -28,9 +28,14 @@ import FireBase from './component/FireBase';
 // './component/com/LoginFacebook';
 
 const Navigation = StackNavigator({
+  
   Main: {
     screen: Main
   },
+  Splash: {
+    screen: Splash
+  },
+
   UpdateProfile: {
     screen: UpdateProfile
   },
@@ -72,9 +77,7 @@ const Navigation = StackNavigator({
     screen: UpdateInfoMail
   },
 
-  Splash: {
-    screen: Splash
-  },
+  
   RouterMain: {
     screen: RouterMain
   }
