@@ -9,23 +9,25 @@ import {
     Dimensions,
     ScrollView,
     Modal,
-    TextInput
+    TextInput,
+    FlatList,
+    ListView,
+    ToastAndroid
 } from 'react-native';
 
-
 import RNFetchBlob from 'react-native-fetch-blob';
-
 
 import {Firebase} from './FireBase';
 import TXTinput from './com/TXTinput';
 import Line from './com/TXTinput';
+import FlatListPersonal from './com/FlatListPersonal';
 
 const storage = Firebase.storage();
-const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-widown.Blob = Blob;
+const Blob = RNFetchBlob.polyfill.Blob
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
 
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -39,9 +41,41 @@ var options = {
     storageOptions: {
         skipBackup: true,
         path: 'images'
-    },
-    
+    }
 };
+
+const uploadImage = (uri, mime = 'application/octet-stream') => {
+    return new Promise((resolve, reject) => {
+        const uploadUri = Platform.OS === 'ios'
+            ? uri.replace('file://', '')
+            : uri
+        const sessionId = new Date().getTime()
+        let uploadBlob = null
+        const imageRef = storage
+            .ref('images')
+            .child(`${sessionId}`)
+
+        fs
+            .readFile(uploadUri, 'base64')
+            .then((data) => {
+                return Blob.build(data, {type: `${mime};BASE64`})
+            })
+            .then((blob) => {
+                uploadBlob = blob
+                return imageRef.put(blob, {contentType: mime})
+            })
+            .then(() => {
+                uploadBlob.close()
+                return imageRef.getDownloadURL()
+            })
+            .then((url) => {
+                resolve(url)
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
 export default class Personal extends React.Component {
     constructor(props) {
         super(props);
@@ -49,17 +83,43 @@ export default class Personal extends React.Component {
             brCover: require('../source/images/cover.jpg'),
             brAvt: require('../source/images/avt.jpg'),
             name: 'Rabbit Soup',
-            detail: 'Dev in PP Company',
+            detail1: 'Dev in PP Company',
             cacheName: '',
             cacheDetail: '',
             modalVisible: false,
+            modalAdd: false,
             labelName: 'Tên: ',
             labelDetail: 'Mô tả: ',
-            upCover:'Thêm ảnh nền'
+            upCover: 'Thêm ảnh nền',
+
+            // Modal Add Post
+            l1: 'Tiêu đề',
+            l2: 'Ghi chú',
+            btnOK: 'Lưu',
+            cancel: 'Hủy',
+            tT: 'Nhập tiêu đề .....',
+            tN: 'Nhập nội dung .....',
+            nameModal: '',
+            detail: '',
+            
         }
+
+        this.itemRef = Firebase
+        .database()
+        .ref("NOTE");
     }
     _editInfo() {
         this.setState({modalVisible: true});
+    }
+    _pickImage() {
+        this.setState({brCover: null})
+
+        ImagePicker.launchImageLibrary({}, response => {
+            uploadImage(response.uri).then(url => {
+                this.setState({brCover: url}),
+                console.log(url)
+            }).catch(error => console.log(error))
+        })
     }
     _uploadCover() {
         console.log('uploadCover clicked')
@@ -73,11 +133,25 @@ export default class Personal extends React.Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
+                let source = {
+                    uri: response.uri
+                };
 
+                this.setState({brCover: source})
 
-                uploadImage(response.url).then(url => this.setState({brCover:url}))
-                .catch(error => console.log(error))
-        
+                RNFetchBlob.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
+                    // dropbox upload headers
+                    Authorization: "Bearer access-token...",
+                    'Dropbox-API-Arg': JSON.stringify({path: source, mode: 'add', autorename: true, mute: false}),
+                    'Content-Type': 'application/octet-stream',
+                    // Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
+                    // Or simply wrap the file path with RNFetchBlob.wrap().
+                }, RNFetchBlob.wrap(source)).then((res) => {
+                    console.log(res.text())
+                }).catch((err) => {
+                    // error handling ..
+                })
+
             }
         });
     }
@@ -108,45 +182,61 @@ export default class Personal extends React.Component {
         this.setState({modalVisible: false})
     }
     _okModal() {
-        this.setState({name:this.state.cacheName});
-        this.setState({detail:this.state.cacheDetail});
+        this.setState({name: this.state.cacheName});
+        this.setState({detail1: this.state.cacheDetail});
         this.setState({modalVisible: false})
     }
-
     _cancelModal() {
         this._closeModal();
     }
+    _openAddModal() {
+        this.setState({modalAdd: true})
+    }
+
+    _OK() {
+        this
+            .itemRef
+            .push({Name: this.state.nameModal, Detail: this.state.detail})
+        ToastAndroid.show('Lưu thành công', ToastAndroid.SHORT);
+        this.setState({modalAdd: false});
+        // console.log(this.state.name + ' + '+ this.state.detail)
+    }
+    _Cancel() {
+        this.setState({modalAdd: false})
+    }
+
     render() {
         return (
-            <ScrollView>
                 <View style={styles.container}>
                     {/*Modal*/}
                     <Modal
                         visible={this.state.modalVisible}
                         animationType={"fade"}
                         transparent={true}
+                        position={"center"}
                         onRequestClose={() => this._closeModal()}>
                         <View style={styles.modal}>
                             <_TextInput
-                            onChangeText={(value)=>this.setState({cacheName:value})}
-                            title={this.state.labelName} value={this.state.name}/>
-                            <_TextInput 
-                            onChangeText={(value)=>this.setState({cacheDetail:value})}
-                            
-                            title={this.state.labelName} value={this.state.name}/>
-                            
-                            <BtnUpload 
-                            title={this.state.upCover}
-                            onPress={()=>{this._uploadCover()}}/>
+                                onChangeText={(value) => this.setState({cacheName: value})}
+                                title={this.state.labelName}
+                                value={this.state.name}/>
+                            <_TextInput
+                                onChangeText={(value) => this.setState({cacheDetail: value})}
+                                title={this.state.labelDetail}
+                                value={this.state.detail1}/>
+
+                            <BtnUpload
+                                onPress={() => {
+                                this._uploadCover()
+                            }}/>
                             <View
                                 style={{
                                 flexDirection: 'row',
                                 marginTop: 10,
                                 justifyContent: 'space-between',
-                                width: 170,
-
+                                width: 240
                             }}>
-                            
+
                                 <_btnModal
                                     onPress={() => {
                                     this._okModal()
@@ -175,7 +265,7 @@ export default class Personal extends React.Component {
                                         .toUpperCase()}
                                 </Text>
                                 <Text style={styles.txtDetail}>
-                                    {this.state.detail}
+                                    {this.state.detail1}
                                 </Text>
 
                             </View>
@@ -184,23 +274,68 @@ export default class Personal extends React.Component {
                                 ._editInfo
                                 .bind(this)}/>
                         </ImageBackground>
+
+                        <Modal
+                            visible={this.state.modalAdd}
+                            animatedType={'fade'}
+                            transparent={true}
+                            hardwareAccelerated={true}
+                            onRequestClose={() => {
+                            this.setState({modalAdd: false})
+                        }}>
+
+                            <View style={styles.containerModalAdd}>
+
+                                <LineModal
+                                    onChangeText={(value) => {
+                                    this.setState({nameModal: value})
+                                }}
+                                    value={this.state.l1}
+                                    placeholder={this.state.tT}/>
+                                <LineModal
+                                    onChangeText={(value) => {
+                                    this.setState({detail: value})
+                                }}
+                                    value={this.state.l2}
+                                    placeholder={this.state.tN}/>
+                                <View style={styles.VbtnModal}>
+                                    <BtnModal value={this.state.btnOK} onPress={() => this._OK()}/>
+                                    <BtnModal value={this.state.cancel} onPress={() => this._Cancel()}/>
+                                </View>
+
+                            </View>
+
+                        </Modal>
+                        <FlatListPersonal/>
+                        <FloatButton
+                            onPress={() => {
+                            this._openAddModal()
+                        }}/>
                     </View>
-                    <Text>
-                        Thanh Tam
-                    </Text>
                 </View>
-            </ScrollView>
         );
     }
 }
-class BtnUpload extends React.Component{
-    render(){
-        return(
-            <TouchableOpacity
-                style = {styles.btnUpload}
-                onPress ={this.props.onPress}
-            >
-                <Text>{this.props.title}</Text>
+
+// Note Personal
+
+class FloatButton extends React.Component {
+    render() {
+        return (
+            <TouchableOpacity onPress={this.props.onPress} style={styles.floatButton}>
+                <Text style={styles.txtFloatButton}>+</Text>
+            </TouchableOpacity>
+        );
+    }
+}
+
+class BtnUpload extends React.Component {
+    render() {
+        return (
+            <TouchableOpacity style={styles.btnUpload} onPress ={this.props.onPress}>
+                <Image 
+                style={{alignSelf:'center'}}
+                source={require('../source/images/icon/ic_cam.png')}/>
             </TouchableOpacity>
         );
     }
@@ -234,7 +369,8 @@ class _TextInput extends React.Component {
                 <TextInput
                     style={styles.txtModal}
                     onChangeText={this.props.onChangeText}
-                    placeholder={this.props.value}/>
+                    placeholder={this.props.value}
+                    value={this.props.text}/>
 
             </View>
         );
@@ -246,10 +382,12 @@ class _btnModal extends React.Component {
         return (
             <TouchableOpacity
                 style={{
-                backgroundColor: 'red',
+                // backgroundColor: 'red',
+                borderColor:'white',
+                borderWidth:2,
                 height: 40,
-                width: 70,
-                borderRadius: 20,
+                width: 100,
+                borderRadius: 10,
                 justifyContent: 'center'
             }}
                 onPress={this.props.onPress}>
@@ -257,7 +395,8 @@ class _btnModal extends React.Component {
                     style={{
                     alignSelf: 'center',
                     fontSize: 20,
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    alignSelf:'center'
                 }}>
                     {this.props.label}
                 </Text>
@@ -266,14 +405,120 @@ class _btnModal extends React.Component {
     }
 }
 
+let name;
+let detail;
+
+class LineModal extends React.Component {
+    render() {
+        return (
+            <View
+                style={{
+                flexDirection: 'column',
+                alignSelf: 'center',
+                zIndex:1000
+            }}>
+                <Text style={styles.txtAddModel}>
+                    {this.props.value}
+                </Text>
+                <EdtModal
+                    onChangeText={this.props.onChangeText}
+                    placeholder={this.props.placeholder}/>
+            </View>
+        );
+    }
+}
+class EdtModal extends React.Component {
+    render() {
+        return (<TextInput
+            style={styles.edtModal}
+            placeholderTextColor="white"
+            placeholder={this.props.placeholder}
+            underlineColorAndroid='transparent'
+            onChangeText={this.props.onChangeText}/>);
+    }
+}
+class BtnModal extends React.Component {
+    render() {
+        return (
+            <TouchableOpacity style={styles.btnModalAdd} onPress={this.props.onPress}>
+                <Text
+                    style={{
+                    fontSize: 18,
+                    color: 'white',
+                    fontWeight: 'bold',
+                    alignSelf: 'center'
+                }}>{this.props.value}</Text>
+            </TouchableOpacity>
+        );
+    }
+}
 const {width, height} = Dimensions.get('window');
 const heightOfCover = '30%';
-const mainColor = '#FAC40D';
+const mainColor = '#FFCF1C';
 const styles = StyleSheet.create({
-    btnUpload:{
-      width:width -120,
-      height:50,
-      backgroundColor:'white',
+    containerFlatList: {},
+    floatButton: {
+        position: 'absolute',
+        zIndex: 99,
+        right: 20,
+        bottom: 10,
+        backgroundColor: mainColor,
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 8
+    },
+    txtFloatButton: {
+        color: 'white',
+        fontSize: 20
+    },
+    txtAddModel: {
+        fontSize: 18,
+        color: 'white',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    btnModalAdd: {
+        // backgroundColor:'pink',
+        margin: 20,
+        height: 40,
+        width: 80,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: 'white',
+        justifyContent: 'center'
+    },
+    VbtnModal: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: width - 150,
+        alignSelf: 'center'
+    },
+    containerModalAdd: {
+        justifyContent: 'center',
+        backgroundColor: mainColor,
+        justifyContent: 'center',
+        paddingLeft: 30,
+        paddingRight: 30,
+        borderRadius: 10,
+        flex: 1,
+        height: '50%'
+    },
+    edtModal: {
+        // backgroundColor: 'blue',
+        width: width - 150,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderColor: 'white',
+        borderRadius: 10,
+        padding: 10
+    },
+    btnUpload: {
+        width: width - 120,
+        height: 50,
+        // backgroundColor: 'white'
     },
     container: {
         flex: 1,
@@ -282,8 +527,9 @@ const styles = StyleSheet.create({
     },
     headerUser: {
         height: height,
-        backgroundColor: 'red',
-        width: width
+        // backgroundColor: 'red',
+        width: width,
+        flex:1
     },
     brCover: {
         width: width,
@@ -291,7 +537,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     brAvt: {
-        width: '30%',
         height: '50%',
         justifyContent: 'flex-end',
         alignSelf: 'center',
@@ -324,7 +569,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     modal: {
-        flex: 1,
+        flex:1,
         backgroundColor: mainColor,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -334,17 +579,24 @@ const styles = StyleSheet.create({
     lineModal: {
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: 'red',
-        width: width - 120
+        // backgroundColor: 'red',
+        width: width - 120,
+        borderWidth: 2,
+        borderColor:'white',
+        marginBottom: 10,
+        borderRadius: 5,
     },
     txtModal: {
         alignSelf: 'center',
         fontSize: 20,
-        width: '70%'
+        width: '70%',
+        marginLeft:5
     },
     titleModal: {
         alignSelf: 'center',
         width: '20%',
-        fontSize: 20
+        fontSize: 20,
+        color:'white',
+        fontWeight:'bold'        
     }
 });

@@ -8,16 +8,10 @@ import {
     TouchableOpacity
 } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
-// import RNFetchBlob from 'react-native-fetch-blob'
 import {Firebase} from '../component/FireBase';
 
-// import firebase from 'firebase'
 const storage = Firebase.storage()
 
-// Prepare Blob support
-// const Blob = RNFetchBlob.polyfill.Blob
-// const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
 
 const uploadImage = (uri, mime = 'application/octet-stream') => {

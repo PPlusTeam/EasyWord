@@ -17,14 +17,7 @@ import List from './List';
 import Personal from './Personal';
 
 const Navigation = TabNavigator({
-  Tab5: {
-    screen: Personal,
-    navigationOptions: {
-      tabBarIcon: ({tintColor}) => (<Image
-        style={[styles.icon]}
-        source={require('../source/images/icon/ic_user.png')}/>)
-    }
-  },
+ 
   MainHome: {
     screen: List,
     navigationOptions: {
@@ -58,7 +51,14 @@ const Navigation = TabNavigator({
         source={require('../source/images/icon/diamond.png')}/>)
     }
   },
-  
+  Tab5: {
+    screen: Personal,
+    navigationOptions: {
+      tabBarIcon: ({tintColor}) => (<Image
+        style={[styles.icon]}
+        source={require('../source/images/icon/ic_user.png')}/>)
+    }
+  },
 }, {
   tabBarPosition: 'bottom',
   animationEnabled: false,

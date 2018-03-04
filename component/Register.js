@@ -89,7 +89,7 @@ export default class Register extends Component {
           this
             .props
             .navigation
-            .navigate('UpdateInfoMail')
+            .navigate('Userlogin  ')
         })
         .catch(function (error) {
           // Handle Errors here.
@@ -133,9 +133,9 @@ export default class Register extends Component {
 
         <BtnOK
           style={{
-          top: -120,
-          left: 315,
-          zIndex: 1
+          top: -135,
+          left: 330,
+          zIndex: 11
         }}
           onPress={this
           ._RegisterSuccess

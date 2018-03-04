@@ -17,7 +17,7 @@ module.exports = StyleSheet.create({
       viewLogin: {
         backgroundColor: 'white',
         marginTop: 20,
-        width: 280,
+        width: 320,
         alignSelf: 'center',
         borderRadius: 10,
         padding: 10,

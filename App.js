@@ -26,11 +26,17 @@ import FireBase from './component/FireBase';
 // import List from './component/List'; import ButtonFace from
 // './component/com/ButtonFace'; import LoginFacebook from
 // './component/com/LoginFacebook';
-
+import List from './component/com/FlatListPersonal';
 const Navigation = StackNavigator({
-  
+  // upImage:{   screen:upImage },
+  Userlogin: {
+    screen: Userlogin
+  },
   Main: {
     screen: Main
+  },
+  List: {
+    screen: List
   },
   Splash: {
     screen: Splash
@@ -42,9 +48,7 @@ const Navigation = StackNavigator({
   FogotPass: {
     screen: FogotPass
   },
-  Userlogin: {
-    screen: Userlogin
-  },
+
   login: {
     screen: login
   },
@@ -57,7 +61,7 @@ const Navigation = StackNavigator({
   Register: {
     screen: Register
   },
-  
+
   ContentHome: {
     screen: ContentHome
   },
@@ -77,7 +81,6 @@ const Navigation = StackNavigator({
     screen: UpdateInfoMail
   },
 
-  
   RouterMain: {
     screen: RouterMain
   }
