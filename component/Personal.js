@@ -12,7 +12,8 @@ import {
     TextInput,
     FlatList,
     ListView,
-    ToastAndroid
+    ToastAndroid,
+    Platform
 } from 'react-native';
 
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -24,10 +25,10 @@ import FlatListPersonal from './com/FlatListPersonal';
 
 const storage = Firebase.storage();
 const fs = RNFetchBlob.fs;
+const Blob = RNFetchBlob.polyfill.Blob;
 
-const Blob = RNFetchBlob.polyfill.Blob
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-window.Blob = Blob
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
 
 var ImagePicker = require('react-native-image-picker');
 var options = {
@@ -100,13 +101,12 @@ export default class Personal extends React.Component {
             tT: 'Nhập tiêu đề .....',
             tN: 'Nhập nội dung .....',
             nameModal: '',
-            detail: '',
-            
+            detail: ''
         }
 
         this.itemRef = Firebase
-        .database()
-        .ref("NOTE");
+            .database()
+            .ref("NOTE");
     }
     _editInfo() {
         this.setState({modalVisible: true});
@@ -133,24 +133,15 @@ export default class Personal extends React.Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
+
                 let source = {
                     uri: response.uri
                 };
 
-                this.setState({brCover: source})
 
-                RNFetchBlob.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
-                    // dropbox upload headers
-                    Authorization: "Bearer access-token...",
-                    'Dropbox-API-Arg': JSON.stringify({path: source, mode: 'add', autorename: true, mute: false}),
-                    'Content-Type': 'application/octet-stream',
-                    // Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
-                    // Or simply wrap the file path with RNFetchBlob.wrap().
-                }, RNFetchBlob.wrap(source)).then((res) => {
-                    console.log(res.text())
-                }).catch((err) => {
-                    // error handling ..
-                })
+                uploadImage(response.uri)
+                    .then(url => this.setState({brCover: source}))
+                    .catch(error => console.log(error + ""))
 
             }
         });
@@ -171,9 +162,6 @@ export default class Personal extends React.Component {
                     uri: response.uri
                 };
 
-                // You can also display the image using data: let source = { uri:
-                // 'data:image/jpeg;base64,' + response.data };
-
                 this.setState({brAvt: source});
             }
         });
@@ -184,7 +172,12 @@ export default class Personal extends React.Component {
     _okModal() {
         this.setState({name: this.state.cacheName});
         this.setState({detail1: this.state.cacheDetail});
-        this.setState({modalVisible: false})
+        if(this.state.cacheName == '' && this.state.cacheDetail == ''){
+            ToastAndroid.show('Vui lòng nhập đủ nội dung', ToastAndroid.LONG);
+        }
+        else{
+            this.setState({modalVisible: false})
+        }
     }
     _cancelModal() {
         this._closeModal();
@@ -207,112 +200,112 @@ export default class Personal extends React.Component {
 
     render() {
         return (
-                <View style={styles.container}>
-                    {/*Modal*/}
-                    <Modal
-                        visible={this.state.modalVisible}
-                        animationType={"fade"}
-                        transparent={true}
-                        position={"center"}
-                        onRequestClose={() => this._closeModal()}>
-                        <View style={styles.modal}>
-                            <_TextInput
-                                onChangeText={(value) => this.setState({cacheName: value})}
-                                title={this.state.labelName}
-                                value={this.state.name}/>
-                            <_TextInput
-                                onChangeText={(value) => this.setState({cacheDetail: value})}
-                                title={this.state.labelDetail}
-                                value={this.state.detail1}/>
+            <View style={styles.container}>
+                {/*Modal*/}
+                <Modal
+                    visible={this.state.modalVisible}
+                    animationType={"fade"}
+                    transparent={true}
+                    position={"center"}
+                    onRequestClose={() => this._closeModal()}>
+                    <View style={styles.modal}>
+                        <_TextInput
+                            onChangeText={(value) => this.setState({cacheName: value})}
+                            title={this.state.labelName}
+                            value={this.state.name}/>
+                        <_TextInput
+                            onChangeText={(value) => this.setState({cacheDetail: value})}
+                            title={this.state.labelDetail}
+                            value={this.state.detail1}/>
 
-                            <BtnUpload
-                                onPress={() => {
-                                this._uploadCover()
-                            }}/>
-                            <View
-                                style={{
-                                flexDirection: 'row',
-                                marginTop: 10,
-                                justifyContent: 'space-between',
-                                width: 240
-                            }}>
-
-                                <_btnModal
-                                    onPress={() => {
-                                    this._okModal()
-                                }}
-                                    label='Ok'/>
-                                <_btnModal
-                                    onPress={() => {
-                                    this._cancelModal()
-                                }}
-                                    label='Cancel'/>
-
-                            </View>
-                        </View>
-                    </Modal>
-                    {/* Cover Picture */}
-                    <View style={styles.headerUser}>
-                        <ImageBackground style={styles.brCover} source={this.state.brCover}>
-                            <View
-                                style={{
-                                paddingLeft: 30
-                            }}>
-                                <Text style={styles.txtName}>
-                                    {this
-                                        .state
-                                        .name
-                                        .toUpperCase()}
-                                </Text>
-                                <Text style={styles.txtDetail}>
-                                    {this.state.detail1}
-                                </Text>
-
-                            </View>
-                            <BtnEdit
-                                onPress={this
-                                ._editInfo
-                                .bind(this)}/>
-                        </ImageBackground>
-
-                        <Modal
-                            visible={this.state.modalAdd}
-                            animatedType={'fade'}
-                            transparent={true}
-                            hardwareAccelerated={true}
-                            onRequestClose={() => {
-                            this.setState({modalAdd: false})
+                        <BtnUpload
+                            onPress={() => {
+                            this._uploadCover()
+                        }}/>
+                        <View
+                            style={{
+                            flexDirection: 'row',
+                            marginTop: 10,
+                            justifyContent: 'space-between',
+                            width: 240
                         }}>
 
-                            <View style={styles.containerModalAdd}>
+                            <_btnModal
+                                onPress={() => {
+                                this._okModal()
+                            }}
+                                label='Ok'/>
+                            <_btnModal
+                                onPress={() => {
+                                this._cancelModal()
+                            }}
+                                label='Cancel'/>
 
-                                <LineModal
-                                    onChangeText={(value) => {
-                                    this.setState({nameModal: value})
-                                }}
-                                    value={this.state.l1}
-                                    placeholder={this.state.tT}/>
-                                <LineModal
-                                    onChangeText={(value) => {
-                                    this.setState({detail: value})
-                                }}
-                                    value={this.state.l2}
-                                    placeholder={this.state.tN}/>
-                                <View style={styles.VbtnModal}>
-                                    <BtnModal value={this.state.btnOK} onPress={() => this._OK()}/>
-                                    <BtnModal value={this.state.cancel} onPress={() => this._Cancel()}/>
-                                </View>
+                        </View>
+                    </View>
+                </Modal>
+                {/* Cover Picture */}
+                <View style={styles.headerUser}>
+                    <ImageBackground style={styles.brCover} source={this.state.brCover}>
+                        <View
+                            style={{
+                            paddingLeft: 30
+                        }}>
+                            <Text style={styles.txtName}>
+                                {this
+                                    .state
+                                    .name
+                                    .toUpperCase()}
+                            </Text>
+                            <Text style={styles.txtDetail}>
+                                {this.state.detail1}
+                            </Text>
 
+                        </View>
+                        <BtnEdit
+                            onPress={this
+                            ._editInfo
+                            .bind(this)}/>
+                    </ImageBackground>
+
+                    <Modal
+                        visible={this.state.modalAdd}
+                        animatedType={'fade'}
+                        transparent={true}
+                        hardwareAccelerated={true}
+                        onRequestClose={() => {
+                        this.setState({modalAdd: false})
+                    }}>
+
+                        <View style={styles.containerModalAdd}>
+
+                            <LineModal
+                                onChangeText={(value) => {
+                                this.setState({nameModal: value})
+                            }}
+                                value={this.state.l1}
+                                placeholder={this.state.tT}/>
+                            <LineModal
+                                onChangeText={(value) => {
+                                this.setState({detail: value})
+                            }}
+                                value={this.state.l2}
+                                placeholder={this.state.tN}/>
+                            <View style={styles.VbtnModal}>
+                                <BtnModal value={this.state.btnOK} onPress={() => this._OK()}/>
+                                <BtnModal value={this.state.cancel} onPress={() => this._Cancel()}/>
                             </View>
 
-                        </Modal>
-                        <FlatListPersonal/>
-                        <FloatButton
-                            onPress={() => {
-                            this._openAddModal()
-                        }}/>
-                    </View>
+                        </View>
+
+                    </Modal>
+                    <FlatListPersonal/>
+                    <FloatButton
+                        onPress={() => {
+                        this._openAddModal()
+                    }}/>
                 </View>
+            </View>
         );
     }
 }
@@ -333,15 +326,15 @@ class BtnUpload extends React.Component {
     render() {
         return (
             <TouchableOpacity style={styles.btnUpload} onPress ={this.props.onPress}>
-                <Image 
-                style={{alignSelf:'center'}}
-                source={require('../source/images/icon/ic_cam.png')}/>
+                <Image
+                    style={{
+                    alignSelf: 'center'
+                }}
+                    source={require('../source/images/icon/ic_cam.png')}/>
             </TouchableOpacity>
         );
     }
 }
-// <ImageBackground style={styles.brAvt} source={this.state.brAvt}> <UploadImage
-//     onPress={this     ._uploadAvt     .bind(this)}/> </ImageBackground>
 class BtnEdit extends React.Component {
     constructor(props) {
         super(props);
@@ -382,9 +375,8 @@ class _btnModal extends React.Component {
         return (
             <TouchableOpacity
                 style={{
-                // backgroundColor: 'red',
-                borderColor:'white',
-                borderWidth:2,
+                borderColor: 'white',
+                borderWidth: 2,
                 height: 40,
                 width: 100,
                 borderRadius: 10,
@@ -396,7 +388,7 @@ class _btnModal extends React.Component {
                     alignSelf: 'center',
                     fontSize: 20,
                     fontWeight: 'bold',
-                    alignSelf:'center'
+                    alignSelf: 'center'
                 }}>
                     {this.props.label}
                 </Text>
@@ -415,7 +407,7 @@ class LineModal extends React.Component {
                 style={{
                 flexDirection: 'column',
                 alignSelf: 'center',
-                zIndex:1000
+                zIndex: 1000
             }}>
                 <Text style={styles.txtAddModel}>
                     {this.props.value}
@@ -507,7 +499,7 @@ const styles = StyleSheet.create({
         height: '50%'
     },
     edtModal: {
-        // backgroundColor: 'blue',
+        // backgroundColor: 'blue,
         width: width - 150,
         alignSelf: 'center',
         borderWidth: 2,
@@ -529,7 +521,7 @@ const styles = StyleSheet.create({
         height: height,
         // backgroundColor: 'red',
         width: width,
-        flex:1
+        flex: 1
     },
     brCover: {
         width: width,
@@ -569,7 +561,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     modal: {
-        flex:1,
+        flex: 1,
         backgroundColor: mainColor,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -582,21 +574,21 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red',
         width: width - 120,
         borderWidth: 2,
-        borderColor:'white',
+        borderColor: 'white',
         marginBottom: 10,
-        borderRadius: 5,
+        borderRadius: 5
     },
     txtModal: {
         alignSelf: 'center',
         fontSize: 20,
         width: '70%',
-        marginLeft:5
+        marginLeft: 5
     },
     titleModal: {
         alignSelf: 'center',
         width: '20%',
         fontSize: 20,
-        color:'white',
-        fontWeight:'bold'        
+        color: 'white',
+        fontWeight: 'bold'
     }
 });
