@@ -3,6 +3,7 @@ package com.easyword;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 //import com.RNFetchBlob.RNFetchBlobPackage;
@@ -15,6 +16,10 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 import com.imagepicker.ImagePickerPackage;
+
+
+import com.oblador.vectoricons.VectorIconsPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -29,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNFetchBlobPackage(),
 //            new RNFetchBlobPackage(),
-            new ImagePickerPackage()
+            new ImagePickerPackage(),
+              new VectorIconsPackage()
             // new RNFetchBlobPackage()
       );
     }

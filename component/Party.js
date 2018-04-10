@@ -64,7 +64,6 @@ export default class Party extends React.Component {
                 <HotGift/>
                 <Panel/>
                 <HotGift/>
-                
             </View>
         );
     }

@@ -15,7 +15,7 @@ import Party from './Party';
 import ContentHome from './ContentHome';
 import List from './List';
 import Personal from './Personal';
-
+import Contact from './Contact'
 const Navigation = TabNavigator({
  
   MainHome: {
@@ -44,7 +44,7 @@ const Navigation = TabNavigator({
 
   },
   Tab4: {
-    screen: Party,
+    screen: Contact,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.icon]}
