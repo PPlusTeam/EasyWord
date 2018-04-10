@@ -16,10 +16,15 @@ import ContentHome from './ContentHome';
 import List from './List';
 import Personal from './Personal';
 import Contact from './Contact'
+import AboutTems from './AboutTems'
+import TabNav from './ContentHome'
+import ListTems from './ListTems'
+import FeedbackTems from './FeedbackTems'
+
 const Navigation = TabNavigator({
  
   MainHome: {
-    screen: List,
+    screen: ListTems,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.icon]}
@@ -27,7 +32,7 @@ const Navigation = TabNavigator({
     }
   },
   Tab2: {
-    screen: Party,
+    screen: AboutTems,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.icon]}
@@ -44,7 +49,7 @@ const Navigation = TabNavigator({
 
   },
   Tab4: {
-    screen: Contact,
+    screen: FeedbackTems,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (<Image
         style={[styles.icon]}
@@ -62,37 +67,22 @@ const Navigation = TabNavigator({
 }, {
   tabBarPosition: 'bottom',
   animationEnabled: false,
-  swipeEnabled: false,
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
     activeTintColor: 'black',
     inactiveTintColor: 'gray',
-    tabStyle: {
-      // paddingTop: 0, margin: 0, //Padding 0 here
-    },
-    labelStyle: {
-      position: 'relative',
-      alignSelf: 'center'
-    },
     style: {
       backgroundColor: 'white',
-      // height: 70, width: null,
-      padding: 0,
-      flexDirection: 'column',
-      justifyContent: 'center'
     },
     iconStyle: {
       width: 70,
       height: 70,
-      marginTop: 0,
-      marginBottom: 0,
-      padding: 0
     },
-    // animationEnabled: true,
   }
 })
 export default Navigation;
+
 const styles = StyleSheet.create({
   icon: {
     height: 30,

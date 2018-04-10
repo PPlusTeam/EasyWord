@@ -139,10 +139,14 @@ export default class FlatListPersonal extends React.Component {
                 <Text
                     style={{
                     fontSize: 24,
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: 'white',
                 }}>
                     {data.data.Name}</Text>
-                <Text>
+                <Text style={{
+                    fontSize: 14,
+                    color: 'white',
+                }}>
                     {data.data.Detail}</Text>
             </TouchableOpacity>
         );
@@ -233,7 +237,9 @@ export default class FlatListPersonal extends React.Component {
                         fontSize: 23,
                         fontWeight: 'bold',
                         marginTop: 10,
-                        marginBottom: 15
+                        marginBottom: 15,
+                        color: 'white',
+                        
                     }}>Ghi chú của bạn</Text>
 
                     <ListView

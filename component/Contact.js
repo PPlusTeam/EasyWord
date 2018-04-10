@@ -63,7 +63,6 @@ export default class Contact extends React.Component{
     render(){
         return(
             <View style ={styles.container}>
-                    
                 
                 <View
                     style={styles.viewForm}>
@@ -89,12 +88,6 @@ export default class Contact extends React.Component{
                         style={styles.buttonSubmit}>
                         <Text style={styles.textButton}>
                             {this.state.ok}
-                        </Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity style={styles.buttonCancel}>
-                        <Text style={styles.textCancel}>
-                            {this.state.cancel}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -201,18 +194,18 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     buttonSubmit:{
-        width:width-150,
+        width:width-60,
         backgroundColor:mainColor,
         borderRadius:10,
         marginTop:10,
         marginBottom: 10,
-        height:50,
+        height:60,
         justifyContent: 'center',
         alignItems: 'center',
     },
     viewForm:{
         flexDirection: 'column',
-        marginTop:100
+        marginTop:10
     },
 
     textErea:{

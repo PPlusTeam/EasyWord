@@ -23,8 +23,10 @@ import FireBase from './component/FireBase';
 import Contact from './component/Contact'
 
 import List from './component/com/FlatListPersonal';
+import About from './component/About'
+
 const Navigation = StackNavigator({
-  // Contact:{   screen:Contact },
+  // About:{   screen:About },
   // Userlogin: {
   //   screen: Userlogin
   // },

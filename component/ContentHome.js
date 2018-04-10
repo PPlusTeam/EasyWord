@@ -29,28 +29,12 @@ const TabNav = TabNavigator({
   }
 }, {
   tabBarOptions: {
-
-    titleStyle: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    showIcon: true,
-    showLabel: true,
+    swipeEnabled: false,
     activeTintColor: '#141E23',
     inactiveTintColor: 'gray',
-    tabStyle: {
-      // paddingTop: 0,
-      height: 60,
-      width: null,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
     style: {
       backgroundColor: 'white',
       flexDirection: 'column',
-      margin:0,
-      justifyContent: 'center',
     },
     indicatorStyle: {
       backgroundColor: '#141e23'

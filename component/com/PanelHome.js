@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-  BoxShadow
+  BoxShadow,
+  ToastAndroid
 } from 'react-native';
 import {TabNavigator} from 'react-navigation';
 // import {BoxShadow} from 'react-native-shadow';
@@ -35,6 +36,7 @@ export default class Program extends React.Component {
       this.setState({src1: require('../../source/images/icon/headerun.png')});
       this.setState({csrc: false})
     }
+    ToastAndroid.show('Liked', ToastAndroid.SHORT)
   }
   render() {
     return (

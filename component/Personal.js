@@ -305,6 +305,7 @@ export default class Personal extends React.Component {
                         this._openAddModal()
                     }}/>
                 </View>
+                
             </View>
         );
     }
@@ -447,6 +448,7 @@ class BtnModal extends React.Component {
 const {width, height} = Dimensions.get('window');
 const heightOfCover = '30%';
 const mainColor = '#FFCF1C';
+const br='#121A1E'
 const styles = StyleSheet.create({
     containerFlatList: {},
     floatButton: {
@@ -515,7 +517,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor:br
     },
     headerUser: {
         height: height,
@@ -555,7 +558,8 @@ const styles = StyleSheet.create({
     txtName: {
         color: 'white',
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        
     },
     txtDetail: {
         color: 'white'

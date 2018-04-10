@@ -5,17 +5,22 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    Button
+    Button,
+    ToastAndroid,
+    Alert
 } from 'react-native';
 
 import {StackNavigator} from 'react-navigation';
 
 import Party from './Party';
 import ContentHome from './ContentHome';
+import Program from './Program'
+
 
 const Navigation = StackNavigator({
-    ContentHome: {
-        screen: ContentHome,
+    
+    Program: {
+        screen: Program,
         navigationOptions: {
             title: 'Trang Chủ',
             headerStyle: {
@@ -28,6 +33,17 @@ const Navigation = StackNavigator({
                 left: 20
             },
             headerRight: <TouchableOpacity
+                    onPress={()=>{
+                        Alert.alert(
+                            'Thông Báo',
+                            'Thông tin liên hệ xin vui lòng truy cập trang About Us ^*^',
+                            [
+                              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                              {text: 'OK', onPress: () => console.log('OK Pressed')},
+                            ],
+                            { cancelable: false }
+                          )
+                    }}
                     style={{
                     marginRight: 10
                 }}>

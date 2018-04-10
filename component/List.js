@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Dimensions,
     FlatList,
-    Modal
+    Modal,
+    ScrollView
 } from 'react-native';
 
 import {Firebase} from './FireBase';
@@ -78,7 +79,8 @@ export default class List extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <PanelHome
+                <ScrollView>
+                        <PanelHome
                     srcBR={this.state.brCf}
                     logo={this.state.logoCf}
                     title={this.state.titleCf}
@@ -123,15 +125,20 @@ export default class List extends React.Component {
                     txt2={this.state.txt2S}
                     txt3={this.state.txt3S}
                     txt4={this.state.txt4S}/>
+            
+                </ScrollView>    
             </View>
         );
     }
 }
 const {width, height} = Dimensions.get('window');
+const br='#121A1E'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        backgroundColor:br
     }
 });
